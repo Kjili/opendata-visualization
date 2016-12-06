@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<noscript>
+		<p>
+			Sorry, but this page requires the following scripts to display the visualization:
+			https://d3js.org/d3.v4.min.js
+		</p>
+	</noscript>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script type="text/javascript" src="visualize.js"></script>
+	<script type="text/javascript" src="scatterplot.js"></script>
+	<meta charset="UTF-8">
+	<title>Test Visualization</title>
+</head>
+
+<body>
+	<script async>corrvis.createFromCSV('../testdata/test.csv');</script> <!-- https://github.com/tpmccauley/cmsopendata-jupyter/tree/master/testdata/DoubleMuRun2011A.csv -->
+	<div id="vis-container"></div>
+</body>
+
+</html> 
