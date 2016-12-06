@@ -29,7 +29,28 @@ var corrvis = (function() {
 				
 				var range = getRange(data, keys);
 				
-				//now visualize this
+				scatterplotmatrix.createScatterplotMatrix(data, keys, range);
+				
+				// just for testing, really inefficient code
+				d3.select('#vis-container').selectAll('p')
+					.data(data)
+					.enter()
+					.append('p')
+					.text(function(d) {
+						return "x : " + d.px1 + " | y: " + d.py1;
+					});
+					
+				d3.select('#vis-container')
+					.append('p')
+					.text(function(d) {
+						return "min(x) : " + range.min["px1"] + " | min(y): " + range.min["py1"];
+					});
+				
+				d3.select('#vis-container')
+					.append('p')
+					.text(function(d) {
+						return "max(x) : " + range.max["px1"] + " | max(y): " + range.max["py1"];
+					});
 			});
 			
 		}
