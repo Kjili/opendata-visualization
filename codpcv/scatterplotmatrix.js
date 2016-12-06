@@ -26,6 +26,14 @@ var scatterplotmatrix = (function() {
 			
 			// just for testing, this is not needed
 			var scatterplotrect = scatterplot.append("rect")
+				.attr("width", scatterplotwidth+30)
+				.attr("height", scatterplotheight+21)
+				.attr("x", -25)
+				.attr("y", -5)
+				.style("fill", "white");
+			
+			// just for testing, this is not needed
+			var scatterplotrect = scatterplot.append("rect")
 				.attr("width", scatterplotwidth)
 				.attr("height", scatterplotheight)
 				.attr("x", 0)
