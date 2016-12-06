@@ -32,29 +32,60 @@ var corrvis = (function() {
 				
 				scatterplotmatrix.createScatterplotMatrix(data, keys, range);
 				
-				// just for testing, really inefficient code
-				d3.select('#vis-container').selectAll('p')
-					.data(data)
-					.enter()
-					.append('p')
-					.text(function(d) {
-						return "x : " + d.px1 + " | y: " + d.py1;
-					});
-					
-				d3.select('#vis-container')
-					.append('p')
-					.text(function(d) {
-						return "min(x) : " + range.min["px1"] + " | min(y): " + range.min["py1"];
-					});
+				showValues(data, range, [keys[4],keys[5]]);
 				
-				d3.select('#vis-container')
-					.append('p')
-					.text(function(d) {
-						return "max(x) : " + range.max["px1"] + " | max(y): " + range.max["py1"];
-					});
 			});
 			
 		}
 	}
 
 })();
+
+// just for testing, really inefficient code
+function showValues(data, range, keys) {
+	
+	if (keys == null) {
+		return;
+	}
+	
+	d3.select('#vis-container').selectAll('p')
+		.data(data)
+		.enter()
+		.append('p')
+		.text(function(d) {
+			var returnstring = "";
+			for (var i = 0; i < keys.length; ++i) {
+				returnstring += keys[i] + ": " + d[keys[i]];
+				if (i < keys.length - 1) {
+					returnstring += " | ";
+				}
+			}
+			return returnstring;
+		});
+		
+	d3.select('#vis-container')
+		.append('p')
+		.text(function(d) {
+			var returnstring = "";
+			for (var i = 0; i < keys.length; ++i) {
+				returnstring += "min(" +  keys[i] + "): " + range.min[keys[i]];
+				if (i < keys.length - 1) {
+					returnstring += " | ";
+				}
+			}
+			return returnstring;
+		});
+	
+	d3.select('#vis-container')
+		.append('p')
+		.text(function(d) {
+			var returnstring = "";
+			for (var i = 0; i < keys.length; ++i) {
+				returnstring += "max(" +  keys[i] + "): " + range.max[keys[i]];
+				if (i < keys.length - 1) {
+					returnstring += " | ";
+				}
+			}
+			return returnstring;
+		});
+}
