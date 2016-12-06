@@ -25,6 +25,7 @@ var corrvis = (function() {
 
 			d3.csv(csvfile, function(data) {
 				
+				// TODO check out nest for improved readout
 				var keys = Object.keys(data[0]);
 				
 				var range = getRange(data, keys);

@@ -39,6 +39,15 @@ var scatterplotmatrix = (function() {
 			
 			var yaxis = d3.axisLeft(yscale);
 			
+			var xaxisg = scatterplot
+				.append("g")
+				.attr("transform", "translate(0," + scatterplotheight + ")")
+				.call(xaxis);
+				
+			var yaxisg = scatterplot
+				.append("g")
+				.call(yaxis);
+			
 			var circles = scatterplot.selectAll("circle")
 				.data(data)
 				.enter()
@@ -51,16 +60,6 @@ var scatterplotmatrix = (function() {
 				})
 				.attr("r", radius)
 				.attr("fill", "red");
-			
-			var xaxisg = scatterplot
-				.append("g")
-				.attr("transform", "translate(0," + scatterplotheight + ")")
-				.call(xaxis);
-				
-			var yaxisg = scatterplot
-				.append("g")
-				.attr("transform", "translate(0,0)")
-				.call(yaxis);
 			
 		}
 	}
