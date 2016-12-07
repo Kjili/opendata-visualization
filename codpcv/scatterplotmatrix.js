@@ -59,8 +59,8 @@ var scatterplotmatrix = (function() {
 				.attr("y", 0)
 				.style("fill", "blue");
 			
-			var xscale = d3.scaleLinear().domain([range.min[keys[i]], range.max[keys[i]]]).range([0, scatterplotwidth]);;
-			var yscale = d3.scaleLinear().domain([range.min[keys[j]], range.max[keys[j]]]).range([scatterplotheight, 0]);
+			var xscale = d3.scaleLinear().domain(range[keys[i]]).range([0, scatterplotwidth]);
+			var yscale = d3.scaleLinear().domain(range[keys[j]]).range([scatterplotheight, 0]);
 			
 			var xaxis = d3.axisBottom(xscale);
 			

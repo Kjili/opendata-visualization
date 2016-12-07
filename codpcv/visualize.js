@@ -1,25 +1,5 @@
 var corrvis = (function() {
 
-	var getRange = function(data, keys) {
-		
-		var min = {};
-		var max = {};
-		for (var i = 0; i < data.length; ++i) {
-			min[keys[i]] = Number.POSITIVE_INFINITY;
-			max[keys[i]] = Number.NEGATIVE_INFINITY;
-		}
-		console.log(min);
-		
-		for (var i = 0; i < data.length; ++i) {
-			for (v in data[i]) {
-				min[v] = Math.min(min[v], data[i][v]);
-				max[v] = Math.max(max[v], data[i][v]);
-			}
-		}
-		
-		return {min: min, max: max};
-	};
-
 	return {
 		createFromCSV: function(csvfile) {
 
@@ -28,7 +8,16 @@ var corrvis = (function() {
 				// TODO check out nest for improved readout
 				var keys = Object.keys(data[0]);
 				
-				var range = getRange(data, keys);
+				var range = {};
+				for (var i = 0; i < keys.length; ++i) {
+					range[keys[i]] = d3.extent(data, function(d) {
+						var values = +d[keys[i]];
+						if (isNaN(values)) {
+							return d[keys[i]];
+						}
+						return values;
+					});
+				}
 				
 				scatterplotmatrix.createScatterplotMatrix(data, keys, range);
 				
@@ -68,7 +57,7 @@ function showValues(data, range, keys) {
 		.text(function(d) {
 			var returnstring = "";
 			for (var i = 0; i < keys.length; ++i) {
-				returnstring += "min(" +  keys[i] + "): " + range.min[keys[i]];
+				returnstring += "min(" +  keys[i] + "): " + range[keys[i]][0];
 				if (i < keys.length - 1) {
 					returnstring += " | ";
 				}
@@ -81,7 +70,7 @@ function showValues(data, range, keys) {
 		.text(function(d) {
 			var returnstring = "";
 			for (var i = 0; i < keys.length; ++i) {
-				returnstring += "max(" +  keys[i] + "): " + range.max[keys[i]];
+				returnstring += "max(" +  keys[i] + "): " + range[keys[i]][1];
 				if (i < keys.length - 1) {
 					returnstring += " | ";
 				}
