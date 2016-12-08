@@ -1,6 +1,6 @@
 var scatterplotmatrix = (function() {
 
-	// svg container
+	// svg container, updated later!
 	var width = 400;
 	var height = 400;
 
@@ -9,9 +9,13 @@ var scatterplotmatrix = (function() {
 	var scatterplotheight = 100;
 	
 	// matrix cell
-	var padding = 3;
-	var cellWidth = scatterplotwidth + 30 + padding;
-	var cellHeight = scatterplotheight + 21 + padding;
+	var padding = 10;
+	var cellWidth = scatterplotwidth + padding;
+	var cellHeight = scatterplotheight + padding;
+	
+	// plot
+	var xOffset = 100;
+	var yOffset = 30;
 
 	// dots
 	var radius = 5;
@@ -23,71 +27,84 @@ var scatterplotmatrix = (function() {
 			//TODO balance container size for different numbers of keys
 			
 			// update size of the svg container relative to number of keys
-			width = cellWidth * keys.length;
-			height = cellHeight * keys.length;
+			width = cellWidth * keys.length + xOffset;
+			height = cellHeight * keys.length + 2*yOffset;
 			
-			// prepare loop
-			var i = 4;
-			var j = 5;
-			
-			// prepare translate
-			posXcell = i * cellWidth;
-			posYcell = j * cellHeight;
-			
+			// create the svg container
 			var svg = d3.select("#vis-container")
 				.append("svg")
 				.attr("width", width)
 				.attr("height", height)
-				.style("background-color", "green");
+				.style("background-color", "#DDDDDD");
 			
-			var scatterplot = svg.append("g")
-				.attr("transform", "translate(" + posXcell + "," + posYcell + ")");
+			// group the matrix, to be able to move it around
+			var scatterplotmatrix = svg.append("g")
+				.attr("transform", "translate(" + xOffset + "," + yOffset + ")");
 			
-			// just for testing, this is not needed
-			var scatterplotrect = scatterplot.append("rect")
-				.attr("width", cellWidth)
-				.attr("height", cellHeight)
-				.attr("x", -25)
-				.attr("y", -5)
-				.style("fill", "white");
-			
-			// just for testing, this is not needed
-			var scatterplotrect = scatterplot.append("rect")
-				.attr("width", scatterplotwidth)
-				.attr("height", scatterplotheight)
-				.attr("x", 0)
-				.attr("y", 0)
-				.style("fill", "blue");
-			
-			var xscale = d3.scaleLinear().domain(range[keys[i]]).range([0, scatterplotwidth]);
-			var yscale = d3.scaleLinear().domain(range[keys[j]]).range([scatterplotheight, 0]);
-			
-			var xaxis = d3.axisBottom(xscale);
-			
-			var yaxis = d3.axisLeft(yscale);
-			
-			var xaxisg = scatterplot
-				.append("g")
-				.attr("transform", "translate(0," + scatterplotheight + ")")
-				.call(xaxis);
+			// create the matrix
+			for (var i = 0; i < keys.length; ++i) {
 				
-			var yaxisg = scatterplot
-				.append("g")
-				.call(yaxis);
-			
-			var circles = scatterplot.selectAll("circle")
-				.data(data)
-				.enter()
-				.append("circle")
-				.attr("cx", function(d) {
-					return xscale(d[keys[i]]);
-				})
-				.attr("cy", function(d) {
-					return yscale(d[keys[j]]);
-				})
-				.attr("r", radius)
-				.attr("fill", "red");
-			
+				// hotfix to show integer values if there's only one value for an axis
+				if (range[keys[i]][0] == range[keys[i]][1]) {
+					range[keys[i]][1] += 10;
+				}
+				
+				// set the scale for the dots along the x axis
+				var xscale = d3.scaleLinear().domain(range[keys[i]]).range([0, scatterplotwidth]);
+				
+				for (var j = 0; j < keys.length; ++j) {
+					
+					// set the scale for the dots along the y axis
+					var yscale = d3.scaleLinear().domain(range[keys[j]]).range([scatterplotheight, 0]);
+					
+					// calculate the position for the matrix cell
+					posXcell = i * cellWidth;
+					posYcell = j * cellHeight;
+					
+					// group a single scatterplot
+					var scatterplot = scatterplotmatrix.append("g")
+						.attr("transform", "translate(" + posXcell + "," + posYcell + ")");
+					
+					// indicate scatterplot borders
+					var scatterplotrect = scatterplot.append("rect")
+						.attr("width", scatterplotwidth)
+						.attr("height", scatterplotheight)
+						.attr("x", 0)
+						.attr("y", 0)
+						.style("stroke", "blue")
+						.style("fill", "none");
+					
+					// draw circles
+					var circles = scatterplot.selectAll("circle")
+						.data(data)
+						.enter()
+						.append("circle")
+						.attr("cx", function(d) {
+							return xscale(d[keys[i]]);
+						})
+						.attr("cy", function(d) {
+							return yscale(d[keys[j]]);
+						})
+						.attr("r", radius)
+						.attr("fill", "red");
+				}
+				
+				var yscale = d3.scaleLinear().domain(range[keys[i]]).range([scatterplotheight, 0]);
+				
+				// draw axes
+				var xaxis = d3.axisBottom(xscale.nice());
+				var yaxis = d3.axisLeft(yscale.nice());
+				
+				var xaxisg = scatterplotmatrix
+					.append("g")
+					.attr("transform", "translate(" + i * cellWidth + "," + keys.length * cellHeight + ")")
+					.call(xaxis);
+					
+				var yaxisg = scatterplotmatrix
+					.append("g")
+					.attr("transform", "translate(" + -padding + "," + i * cellHeight + ")")
+					.call(yaxis);
+			}
 		}
 	}
 
