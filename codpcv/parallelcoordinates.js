@@ -56,13 +56,17 @@ var parallelcoordinates = (function() {
 				return yscale(d);
 			});
 			
-			// draw paths for first line of data
-			var lineGraph = parallelcoordinates.append("path")
-				.attr("d", line(Object.values(data[0])))
-				.attr("stroke", "blue")
-				.attr("stroke-width", 2)
-				.attr("fill", "none");
-
+			// draw paths for all lines of data
+			for (var i = 0; i < data.length; ++i) {
+				
+				loop = -1; // reinititialize loop counter
+				var lineGraph = parallelcoordinates.append("path")
+					.attr("d", line(Object.values(data[i])))
+					.attr("stroke", "blue")
+					.attr("stroke-width", 2)
+					.attr("fill", "none");
+					
+			}
 		}
 
 	}
