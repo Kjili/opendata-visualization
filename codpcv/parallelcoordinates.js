@@ -6,6 +6,7 @@ var parallelcoordinates = (function() {
 	
 	//plot
 	var padding = 10;
+	var xOffset = 100;
 	
 	// axes
 	var axisSize = 100;
@@ -15,7 +16,7 @@ var parallelcoordinates = (function() {
 		createParallelCoordinates: function (data, keys, range) {
 			
 			// update size of the svg container relative to number of keys
-			width = space * keys.length + 2*padding;
+			width = space * keys.length + padding + xOffset;
 			
 			// create the svg container
 			var svg = d3.select("#vis-container")
@@ -26,7 +27,7 @@ var parallelcoordinates = (function() {
 			
 			// group the plot, to be able to move it around
 			var parallelcoordinates = svg.append("g")
-				.attr("transform", "translate(" + padding + "," + padding + ")");
+				.attr("transform", "translate(" + xOffset + "," + padding + ")");
 			
 			// add an axis for every key
 			for (var i = 0; i < keys.length; ++i) {
@@ -37,6 +38,22 @@ var parallelcoordinates = (function() {
 					.attr("y2", axisSize)
 					.attr("stroke-width", 2)
 					.attr("stroke", "blue");
+					
+				var axisLabels = parallelcoordinates.append("text")
+					.attr("x", i * space - (padding / 2))
+					.attr("y", axisSize + padding*2)
+					.text( function (d) { return keys[i]; })
+					.attr("font-family", "sans-serif");
+				
+				var yscale = d3.scaleLinear().domain(range[keys[i]]).range([0, axisSize]);
+				var yaxis = d3.axisLeft(yscale.nice());
+				
+				yaxis.ticks(4);
+				
+				var yaxisg = parallelcoordinates
+					.append("g")
+					.attr("transform", "translate(" + i * space + "," + 0 + ")")
+					.call(yaxis);
 			}
 			
 			// use closure to store iteration
@@ -52,7 +69,7 @@ var parallelcoordinates = (function() {
 					return 0;
 				}
 				var yscale = d3.scaleLinear().domain(range[keys[loop]]).range([0, axisSize]);
-				console.log(loop + " range: " + range[keys[loop]] + " mapped on: " + [0, axisSize] + " value: " + d + " scaled: " + yscale(d))
+				//console.log(loop + " range: " + range[keys[loop]] + " mapped on: " + [0, axisSize] + " value: " + d + " scaled: " + yscale(d))
 				return yscale(d);
 			});
 			
@@ -62,7 +79,7 @@ var parallelcoordinates = (function() {
 				loop = -1; // reinititialize loop counter
 				var lineGraph = parallelcoordinates.append("path")
 					.attr("d", line(Object.values(data[i])))
-					.attr("stroke", "blue")
+					.attr("stroke", "red")
 					.attr("stroke-width", 2)
 					.attr("fill", "none");
 					
