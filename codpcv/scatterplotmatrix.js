@@ -25,9 +25,13 @@ var scatterplotmatrix = (function() {
 			
 			//TODO separate css instead of attributes to clean up the code
 			//TODO balance container size for different numbers of keys
+			// pandas can show correlation values, kick out non-interesting features
+			// show positiv, negativ etc Correlations with values (Correlation Matrix)
+			// show mean and standard deviation in parallel coordinates -> Boxplot
+			// sort by strings/particles
 			
 			// update size of the svg container relative to number of keys
-			width = cellWidth * keys.length + xOffset;
+			width = cellWidth * keys.length + xOffset + padding*4;
 			height = cellHeight * keys.length + 2*yOffset;
 			
 			// create the svg container
@@ -94,6 +98,8 @@ var scatterplotmatrix = (function() {
 				// draw axes
 				var xaxis = d3.axisBottom(xscale.nice());
 				var yaxis = d3.axisLeft(yscale.nice());
+				xaxis.ticks(4);
+				yaxis.ticks(4);
 				
 				var xaxisg = scatterplotmatrix
 					.append("g")
@@ -104,6 +110,14 @@ var scatterplotmatrix = (function() {
 					.append("g")
 					.attr("transform", "translate(" + -padding + "," + i * cellHeight + ")")
 					.call(yaxis);
+				
+				var yLabels = scatterplotmatrix.append("text")
+					.attr("x", i * cellWidth + cellWidth/5)
+					.attr("y", i * cellHeight + cellHeight/4)
+					.text( function (d) { return keys[i]; })
+					.attr("font-family", "sans-serif")
+					.attr("font-size", "30px");
+				
 			}
 		}
 	}
