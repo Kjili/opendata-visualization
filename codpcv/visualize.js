@@ -19,10 +19,10 @@ var corrvis = (function() {
 					});
 				}
 				
-				//scatterplotmatrix.createScatterplotMatrix(data, keys, range);
+				scatterplotmatrix.createScatterplotMatrix(data, keys, range);
 				parallelcoordinates.createParallelCoordinates(data, keys, range);
 				
-				showValues(data, range, [keys[4],keys[5]]);
+				showValues(data, range, keys);
 				
 			});
 			
