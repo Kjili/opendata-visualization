@@ -12,10 +12,9 @@ for d in data:
 # filter out strings
 types = data.dtypes
 types = types[types == object]
-string_data = {}
+string_data = data.copy()
 for i in types.index:
-	string_data[i] = data.pop(i)
-string_data = pd.DataFrame(string_data)
+	del data[i]
 
 # get correlations
 cm = data.corr()
