@@ -73,16 +73,20 @@ var parallelcoordinates = (function() {
 				return yscale(d);
 			});
 			
-			// draw paths for all lines of data
-			for (var i = 0; i < data.length; ++i) {
-				
-				loop = -1; // reinititialize loop counter
-				var lineGraph = parallelcoordinates.append("path")
-					.attr("d", line(Object.values(data[i])))
-					.attr("stroke", "red")
-					.attr("stroke-width", 2)
-					.attr("fill", "none");
-					
+			// draw paths for all lines of data in different colors depending on their nesting
+			var colormap = ["red", "green", "yellow", "orange", "violet", "cyan", "magenta", "blue"];
+			var index = 0;
+			for (var category = 0; category < nested_data.length; ++category) {
+				var current_data = d3.values(nested_data[category])[1];
+				for (var i = 0; i < current_data.length; ++i) {
+					loop = -1; // reinititialize loop counter
+					var lineGraph = parallelcoordinates.append("path")
+						.attr("d", line(Object.values(data[index])))
+						.attr("stroke", colormap[category % colormap.length])
+						.attr("stroke-width", 2)
+						.attr("fill", "none");
+					++ index;
+				}
 			}
 		}
 
