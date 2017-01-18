@@ -21,7 +21,7 @@ var scatterplotmatrix = (function() {
 	var radius = 5;
 
 	return {
-		createScatterplotMatrix: function (data, keys, range, nested_data, stringkeys) {
+		createScatterplotMatrix: function (data, keys, range, nested_data) {
 			
 			//TODO separate css instead of attributes to clean up the code
 			//TODO balance container size for different numbers of keys

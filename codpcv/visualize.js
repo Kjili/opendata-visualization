@@ -47,8 +47,8 @@ var corrvis = (function() {
 				//console.log(JSON.stringify(nested_data, null, " "))
 				
 				// call visualizations
-				scatterplotmatrix.createScatterplotMatrix(data, keys, range, nested_data, stringkeys);
-				parallelcoordinates.createParallelCoordinates(data, keys, range, nested_data, stringkeys);
+				scatterplotmatrix.createScatterplotMatrix(data, keys, range, nested_data);
+				parallelcoordinates.createParallelCoordinates(data, keys, range, nested_data);
 				
 				showValues(data, range, keys);
 			}
