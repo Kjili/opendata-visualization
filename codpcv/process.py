@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 
 # read data
-data = pd.read_csv("~/projekte/opvis/testdata/test.csv")
+filename = "test"
+data = pd.read_csv("~/projekte/opvis/testdata/" + filename + ".csv")
 
 # filter out one-value data
 for d in data:
@@ -27,8 +28,8 @@ sd = data.std() # return an array of standard deviations for each header
 sd = pd.DataFrame(sd).T # transposes this array
 
 # store all data to csv's for d3 to use it
-string_data.to_csv("../testdata/gen/test_strings.csv", index=False)
-data.to_csv("../testdata/gen/test_prep.csv", index=False)
-cm.to_csv("../testdata/gen/test_correlation.csv", index=False)
-m.to_csv("../testdata/gen/test_mean.csv", index=False)
-sd.to_csv("../testdata/gen/test_standard_deviation.csv", index=False)
+string_data.to_csv("../testdata/gen/" + filename + "_strings.csv", index=False)
+data.to_csv("../testdata/gen/" + filename + "_prep.csv", index=False)
+cm.to_csv("../testdata/gen/" + filename + "_correlation.csv", index=False)
+m.to_csv("../testdata/gen/" + filename + "_mean.csv", index=False)
+sd.to_csv("../testdata/gen/" + filename + "_standard_deviation.csv", index=False)
