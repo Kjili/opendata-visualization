@@ -13,7 +13,7 @@ var parallelcoordinates = (function() {
 	var space = 100;
 
 	return {
-		createParallelCoordinates: function (data, keys, range) {
+		createParallelCoordinates: function (data, keys, range, nested_data, stringkeys) {
 			
 			// update size of the svg container relative to number of keys
 			width = space * keys.length + padding + xOffset;
