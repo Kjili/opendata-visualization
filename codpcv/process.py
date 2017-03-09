@@ -3,7 +3,7 @@ import numpy as np
 
 # read data
 filename = "test"
-data = pd.read_csv("~/projekte/opvis/testdata/" + filename + ".csv")
+data = pd.read_csv("../testdata/" + filename + ".csv")
 
 # filter out one-value data
 for d in data:

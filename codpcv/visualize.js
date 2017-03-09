@@ -15,7 +15,7 @@ var corrvis = (function() {
 
 			function runData(error, data, stringdata) {
 				if(error) {
-					console.err(error);
+					console.log(error);
 				}
 
 				// process data
