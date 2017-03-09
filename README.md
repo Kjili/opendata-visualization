@@ -1,5 +1,5 @@
 # opendata-visualization
-Visualization for CERN Open Data using [D3](https://d3js.org/)
+A basic [D3](https://d3js.org/) visualization software implementing a scatterplot matrix and parallel coordinates for learning and testing purposes. Test data partly consists of a simplified and randomized dataset taken from here https://github.com/tpmccauley/cmsopendata-jupyter (see [CERN Open Data](http://opendata.cern.ch) for more).
 
 ## Run Visualization
 
